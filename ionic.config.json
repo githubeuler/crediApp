@@ -1,0 +1,7 @@
+{
+  "name": "CrediKapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
