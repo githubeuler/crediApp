@@ -15,6 +15,26 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
+  {
+    path: 'prestamo',
+    loadChildren: () => import('./domains/prestamos/pages/list/list.module').then( m => m.ListPageModule)
+  },
+  {
+    path: 'cliente',
+    loadChildren: () => import('./domains/clientes/pages/list/list.module').then( m => m.ListPageModule)
+  },
+  {
+    path: 'gasto',
+    loadChildren: () => import('./domains/gastos/pages/list/list.module').then( m => m.ListPageModule)
+  },
+  {
+    path: 'liquidacion',
+    loadChildren: () => import('./domains/liquidacion/pages/liquidacion/liquidacion.module').then( m => m.LiquidacionPageModule)
+  },
+  {
+    path: 'nuevoprestamo',
+    loadChildren: () => import('./domains/prestamos/pages/new/new.module').then( m => m.NewPageModule)
+  },
 ];
 
 @NgModule({
