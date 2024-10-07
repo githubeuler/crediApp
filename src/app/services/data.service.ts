@@ -8,6 +8,26 @@ export interface Message {
   read: boolean;
 }
 
+export interface Prestamo {
+  idPrestamo:number;
+  cuotas: number;
+  cuotasPendientes: number;
+  cuotasPagadas: number;
+  saldo: number;
+  cliente: string;
+  cuota: number;
+  abono: number;
+  estado:string;
+}
+export interface Response {
+  succeeded:boolean;
+  message: string;
+  errors: string;
+  data: any;
+  
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -71,6 +91,193 @@ export class DataService {
     }
   ];
 
+  public prestamos: Prestamo[] = [
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 23,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Euler Augusto Tuesta Bardales',
+    //   cuota: 10,
+    //   abono : 10
+    // },
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // },
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // },
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // },
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // },
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+    // ,
+    // {
+    //   cuotas:24,
+    //   cuotasPendientes: 24,
+    //   cuotasPagadas: 1,
+    //   saldo: 230,
+    //   cliente: 'Juan Perez',
+    //   cuota: 10,
+    //   abono : 10
+    // }
+  ];
+
   constructor() { }
 
   public getMessages(): Message[] {
@@ -79,5 +286,9 @@ export class DataService {
 
   public getMessageById(id: number): Message {
     return this.messages[id];
+  }
+
+  public getPrestamos(): Prestamo[] {
+    return this.prestamos;
   }
 }

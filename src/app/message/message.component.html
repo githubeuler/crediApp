@@ -1,4 +1,5 @@
-<ion-item *ngIf="message" [routerLink]="'/message/' + message.id" [detail]="false">
+<!-- <ion-item *ngIf="message" [routerLink]="'/message/' + message.id" [detail]="false">
+
   <div slot="start" [class]="!message.read ? 'dot dot-unread' : 'dot'"></div>
   <ion-label class="ion-text-wrap">
     <h2>
@@ -13,4 +14,41 @@
       Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
     </p>
   </ion-label>
-  </ion-item>
+
+  </ion-item> -->
+
+  <ion-item  *ngIf="prestamo"  [detail]="false">
+
+       <!-- Badge para saldo -->
+       <ion-badge slot="start" color="secondary">
+         {{prestamo.saldo | currency}}
+      </ion-badge>
+      
+    <!-- Información del préstamo -->
+    <ion-label>
+      <h2><strong>{{prestamo.cliente}}</strong></h2>
+      <p> Cuota <strong>{{prestamo.cuotasPagadas}}/{{prestamo.cuotas}}</strong></p>
+      <!-- <p><small>Saldo restante: {{prestamo.saldo | currency}}</small></p> -->
+    </ion-label>
+
+    <!-- Badge para saldo -->
+    <!-- <ion-button >
+      <ion-icon slot="icon-only" name="card-outline"></ion-icon>
+    </ion-button> -->
+    @if(prestamo.estado =='PENDIENTE'){
+      <ion-button shape="round" color="secondary" id="open-custom-dialog" size="default">
+        <ion-icon slot="icon-only" style="color: white;" name="cash"></ion-icon>
+      </ion-button>
+    }@else if(prestamo.estado =='NUEVO'){
+      <ion-icon style="margin: 6px;" name="add-circle-outline" size="large" color="primary"></ion-icon>
+    }
+    @else if(prestamo.estado =='PAGADO'){
+      <ion-icon style="margin: 6px;" name="checkmark-outline" size="large" color="success"></ion-icon>
+    }
+   
+  
+    </ion-item>
+
+
+
+
