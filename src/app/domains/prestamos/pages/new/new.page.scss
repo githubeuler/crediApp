@@ -1,0 +1,85 @@
+.autocomplete-container {
+  position: relative;
+  /* El contenedor será el contenedor relativo del input */
+  margin-top: 15px;
+}
+
+.autocomplete-list {
+  position: absolute;
+  top: 100%;
+  /* Para que aparezca justo debajo del campo de input */
+  left: 0;
+  right: 0;
+  z-index: 10;
+  /* Para asegurarnos de que se superpone sobre otros elementos */
+  background-color: white;
+  /* Fondo blanco para diferenciarlo del contenido */
+  border: 1px solid #ccc;
+  /* Borde ligero para resaltar la caja */
+  max-height: 300px;
+  /* Limitar la altura */
+  overflow-y: auto;
+  /* Habilitar el scroll si hay muchas sugerencias */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* Agregar sombra */
+  border-radius: 4px;
+  /* Bordes redondeados */
+}
+
+.autocomplete-list ion-item {
+  --background: #ffffff;
+  --border-color: #ccc;
+}
+
+.autocomplete-list ion-item:hover {
+  background-color: #f0f0f0;
+  /* Cambiar el color de fondo cuando el usuario pasa el mouse */
+}
+
+ion-item {
+  margin: 0;
+  /* Quita todos los márgenes */
+  padding: 0;
+  /* Opcional: quita el padding si también lo necesitas */
+}
+
+.datetime-container {
+  position: relative;
+  /* El contenedor será el contenedor relativo del input */
+
+}
+
+.custom-list {
+  border: 1px solid #0d3377;
+  border-radius: 10px;
+  /* padding: 10px; */
+  margin: 5px;            /* Espacio interno */
+}
+
+.datetime-list {
+  position: absolute;
+  top: 100%;
+  /* Para que aparezca justo debajo del campo de input */
+  left: 0;
+  right: 0;
+  z-index: 10;
+  /* Para asegurarnos de que se superpone sobre otros elementos */
+  background-color: white;
+  /* Fondo blanco para diferenciarlo del contenido */
+  
+  /* Borde ligero para resaltar la caja */
+
+  /* Limitar la altura */
+  overflow-y: auto;
+  /* Habilitar el scroll si hay muchas sugerencias */
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  /* Agregar sombra */
+  border-radius: 4px;
+  /* Bordes redondeados */
+}
+
+.datetime-list ion-datetime {
+  --background: #ffffff;
+  --border-color: #ccc;
+}
+

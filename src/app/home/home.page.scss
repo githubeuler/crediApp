@@ -1,0 +1,22 @@
+.menu-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 150px; /* Ajusta el tamaño para que sean cuadrados */
+  text-align: center;
+}
+
+// ion-card {
+//   --background: #f8f9fa; /* Color de fondo de los ítems */
+// }
+
+ion-icon {
+  margin-bottom: 10px;
+  color: #3880ff; /* Color del ícono */
+}
+
+h2 {
+  font-size: 1rem;
+  //color: #000;
+}

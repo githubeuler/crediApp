@@ -24,6 +24,7 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+@import '@ionic/angular/css/display.css';
 
 /**
  * Ionic Dark Mode
@@ -35,3 +36,75 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import "@ionic/angular/css/palettes/dark.system.css";
+
+/**
+ * Ionic Dark Palette
+ * -----------------------------------------------------
+ * For more information, please see:
+ * https://ionicframework.com/docs/theming/dark-mode
+ */
+
+/* @import '@ionic/angular/css/palettes/dark.always.css'; */
+@import '@ionic/angular/css/palettes/dark.class.css';
+/* @import '@ionic/angular/css/palettes/dark.system.css'; */
+
+/* (Optional) This is added to prevent the flashing that happens when toggling between palettes */
+ion-item {
+  --transition: none;
+}
+
+
+// .custom-alert .alert-button-group {
+//   padding: 8px;
+// }
+
+// button.alert-button.alert-button-confirm {
+//   background-color: var(--ion-color-success);
+//   color: var(--ion-color-success-contrast);
+// }
+
+// .md button.alert-button.alert-button-confirm {
+//   border-radius: 4px;
+// }
+
+// .ios .custom-alert button.alert-button {
+//   border: 0.55px solid rgba(var(--ion-text-color-rgb, 0, 0, 0), 0.2);
+// }
+
+// .ios button.alert-button.alert-button-cancel {
+//   border-right: 0;
+//   border-bottom-left-radius: 13px;
+//   border-top-left-radius: 13px;
+// }
+
+// .ios button.alert-button.alert-button-confirm {
+//   border-bottom-right-radius: 13px;
+//   border-top-right-radius: 13px;
+// }
+
+.alert-head{
+  text-align: center !important;
+}
+
+.bYes{
+
+  font-size: 15px !important;
+  background-color: var(--ion-color-success) !important;
+  color: var(--ion-color-success-contrast)!important;
+  padding: 15px !important;
+}
+.alert-message{
+  //color: black !important;
+  font-weight: bold !important;
+}
+
+// div.sc-ion-input-md-s {
+  
+//     border: 1px solid !important;
+//     text-align: center !important;
+//     border-radius: 10px !important ;
+
+// }
+
+
+

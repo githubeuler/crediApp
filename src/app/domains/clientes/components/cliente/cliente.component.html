@@ -1,0 +1,10 @@
+<ion-item  *ngIf="cliente && !cliente.isEditando" [detail]="false">
+  <ion-label>
+    <h2><strong>{{cliente.nombreCompleto}}</strong></h2>
+    <p>{{cliente.tipoDocumento}} {{cliente.numeroDocumento}}</p>
+    <p><strong>{{cliente.direccion}}</strong></p>
+  </ion-label>
+  <ion-button slot="end" shape="round" color="tertiary" size="default" (click)="editarDatosHandler()" >
+    <ion-icon slot="icon-only" style="color: white;" name="pencil-outline"></ion-icon>
+  </ion-button>
+</ion-item>

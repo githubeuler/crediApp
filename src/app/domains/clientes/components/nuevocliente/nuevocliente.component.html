@@ -1,0 +1,52 @@
+<ion-list *ngIf="cliente" lines="none" class="custom-list">
+
+  <ion-item *ngIf="cliente.idCliente == 0"  class="custom-list">
+    <ion-select fill="" label="Tipo documento" interface="popover" [(ngModel)]="cliente.idTipoDocumento"  label-placement="" placeholder="">
+      <ion-select-option value="1">DNI</ion-select-option>
+      <ion-select-option value="2">CE</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item *ngIf="cliente.idCliente != 0" class="custom-list">
+    <ion-input ReadOnly="true" type="text" fill="" label="Tipo documento" placeholder="Ingrese Documento"  [(ngModel)]="cliente.tipoDocumento"></ion-input>
+  </ion-item>
+
+
+  <ion-item *ngIf="cliente.idCliente == 0" class="custom-list">
+    <ion-input type="text" label="Numero documento" placeholder="Ingrese Numero" fill=""  [(ngModel)]="cliente.numeroDocumento"></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="cliente.idCliente != 0"  class="custom-list">
+    <ion-input  ReadOnly="true" type="text" label="Numero documento" placeholder="Ingrese Numero" fill=""  [(ngModel)]="cliente.numeroDocumento"></ion-input>
+  </ion-item>
+
+
+  <ion-item class="custom-list">
+    <ion-input type="text" label="Nombres" placeholder="Ingrese Nombres" fill="" [(ngModel)]="cliente.nombres"></ion-input>
+  </ion-item>
+  <ion-item class="custom-list">
+    <ion-input type="text" label="Apellidos" placeholder="Ingrese Apellidos" fill="" [(ngModel)]="cliente.apellidos"></ion-input>
+  </ion-item>
+  <ion-item class="custom-list">
+    <ion-input type="text" label="Direccion" placeholder="Ingrese Direccion" fill="" [(ngModel)]="cliente.direccion"></ion-input>
+  </ion-item>
+  <ion-item class="custom-list">
+    <ion-input type="text" label="Celular" placeholder="Ingrese Celular" fill="" [(ngModel)]="cliente.celular"></ion-input>
+  </ion-item>
+  <ion-item class="custom-list">
+    <ion-toggle mode="ios" [checked]="cliente.codigoEstado" fill="" [(ngModel)]="cliente.codigoEstado">Estado</ion-toggle>
+  </ion-item>
+
+
+
+
+  <ion-item style="padding: 20px!important;" lines="none">
+    <ion-button slot="start" shape="round" color="medium" size="default" (click)="cancelarHandler()" >
+      <ion-icon slot="icon-only" style="color: white;" name="close"></ion-icon>
+    </ion-button>
+    <ion-button slot="end" shape="round" color="success" size="default" (click)="guardarHandler()" >
+      <ion-icon slot="icon-only" style="color: white;" name="save"></ion-icon>
+    </ion-button>
+  </ion-item>
+  
+</ion-list>

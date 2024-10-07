@@ -1,0 +1,70 @@
+<ion-item-sliding [class.paid]="prestamo?.isPago">
+
+  
+<ion-item  *ngIf="prestamo && !prestamo?.isPago" [detail]="false">
+
+  <!-- Badge para saldo -->
+  <ion-badge slot="start" color="secondary">
+    {{prestamo.saldo | currency}}
+  </ion-badge>
+
+  <!-- Información del préstamo -->
+  <ion-label>
+    <h2><strong>{{prestamo.cliente}}</strong></h2>
+    <p>Cuota <strong>{{prestamo.cuotasPagadas}}/{{prestamo.cuotas}}</strong></p>
+    <!-- <p><strong>{{prestamo.}}</strong></p> -->
+    <!-- <p><small>Saldo restante: {{prestamo.saldo | currency}}</small></p> -->
+  </ion-label>
+  
+
+  <!-- Badge para saldo -->
+  <!-- <ion-button >
+   <ion-icon slot="icon-only" name="card-outline"></ion-icon>
+ </ion-button> -->
+  @if(prestamo.estado =='PENDIENTE'){
+  <ion-button shape="round" color="secondary" id="open-custom-dialog" size="default" *ngIf="!prestamo.isPago" 
+  (click)="showPayInputHandler()"
+  >
+    <ion-icon slot="icon-only" style="color: white;" name="cash"></ion-icon>
+  </ion-button>
+  }@else if(prestamo.estado =='NUEVO'){
+  <ion-icon style="margin: 6px;" name="add-circle-outline" size="large" color="primary"></ion-icon>
+  }
+  @else if(prestamo.estado =='PAGADO'){
+
+  <!-- <ion-label>{{prestamo.pagoDia}}</ion-label> -->
+
+  <ion-badge slot="end" color="success">
+    {{prestamo.pagoDia | currency}}
+  </ion-badge>
+  <!-- <ion-icon style="margin: 6px;" name="checkmark-outline" size="large" color="success"></ion-icon> -->
+  }
+
+
+</ion-item>
+
+<ion-item [disabled]="prestamo.isPagando" *ngIf="prestamo && prestamo?.isPago" class="pay-input">
+
+
+     <ion-button slot="start" shape="round" color="medium" size="default" (click)="hidePayInputHandler()">
+    <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+  </ion-button>
+
+<div class="inputAbono">
+  <ion-input [(ngModel)]="prestamo.abono" type="number"></ion-input>
+</div>
+
+
+  <ion-button [disabled]="prestamo.abono == null || prestamo.abono < 0" slot="end" shape="round" color="success" size="default" (click)="pagarPrestamoHandler()">
+    <ion-icon slot="icon-only" style="color: white;" name="save"></ion-icon>
+  </ion-button>
+
+
+  <!-- <ion-spinner *ngIf="prestamo.isPagando" name="dots"></ion-spinner> -->
+
+ 
+</ion-item>
+
+</ion-item-sliding>
+
+

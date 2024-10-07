@@ -1,0 +1,192 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+
+
+    <ion-title>
+      Nuevo Prestamo
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">new</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+
+
+<ion-content >
+  <div class="autocomplete-container">
+    <!-- Campo de búsqueda de cliente con autocomplete -->
+
+<ion-item class="custom-list" lines="none" *ngIf="!isNuevo">
+  <ion-input label="Cliente" fill="" [(ngModel)]="searchTerm" (ionInput)="filterClients($event)"
+  placeholder="Ingrese nombre o documento"></ion-input>
+
+<ion-buttons slot="end">
+  <ion-button *ngIf="!selectedClient" (click)="createNewClient()">
+    <ion-icon slot="icon-only" name="person-add-outline"></ion-icon>
+  </ion-button>
+  <ion-button  *ngIf="selectedClient"  (click)="resetForm()">
+    <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+  </ion-button>
+</ion-buttons>
+</ion-item>
+
+
+  <app-nuevocliente  [cliente]="cliente" (cancelar)="cancelar(cliente)" (guardar)="guardar(cliente)" *ngIf="isNuevo"></app-nuevocliente>
+
+    
+
+    <ion-list class="autocomplete-list" *ngIf="filteredClients.length > 0">
+
+      <ion-item *ngFor="let client of filteredClients" (click)="selectClient(client)">
+        {{ client.nombres }} {{ client.apellidos }}
+      </ion-item>
+
+
+
+    </ion-list>
+    <!-- Opción para crear un nuevo cliente si no hay coincidencias -->
+
+  </div>
+
+  <!-- Mostrar el cliente seleccionado -->
+  <!-- <ion-item *ngIf="selectedClient">
+    <ion-label>Cliente seleccionado: {{ selectedClient.nombres }} {{ selectedClient.apellidos }}</ion-label>
+  </ion-item> -->
+
+
+  <ion-item class="custom-list" lines="none" *ngIf="selectedClient">
+    <ion-input label="Direccion" fill=""  [(ngModel)]="cliente.direccion" placeholder=""></ion-input>
+  </ion-item>
+  <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-input label="Celular" fill=""  [(ngModel)]="cliente.celular" placeholder=""></ion-input>
+  </ion-item>
+
+  <ion-item class="custom-list" *ngIf="selectedClient">
+    <ion-row>
+      <ion-col>
+        <ion-select  fill="" label="Tipo Pago" interface="popover" [(ngModel)]="idTipoPago" (ionChange)="cambiarTipoPago($event)">
+          <ion-select-option *ngFor="let item of tipoPagos()"   [value]="item.id">{{item.descripcion}}</ion-select-option>
+        </ion-select>
+      </ion-col>
+      <ion-col>
+        <ion-input readOnly="true" label="Cuotas" fill=""  [(ngModel)]="cuotas" placeholder=""></ion-input>
+      </ion-col>
+    </ion-row>
+ 
+  </ion-item>
+
+  <!-- <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-input readOnly="true" label="Cuotas" fill=""  [(ngModel)]="cuotas" placeholder=""></ion-input>
+  </ion-item> -->
+
+
+
+
+  <!-- Campo para registrar el monto del crédito -->
+  <div class="datetime-container">
+    <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+      <ion-input [(ngModel)]="fechaInicio" (ionFocus)="mostrarDateTime()" (ionBlur)="ocultarDateTime()" label="Fecha Inicio" fill="" placeholder=""></ion-input>
+    </ion-item>
+    <div class="datetime-list">
+      <!-- Datetime oculto por defecto -->
+      <ion-datetime
+        id="fechaDateTime" 
+        (ionChange)="seleccionarFecha($event)" 
+        *ngIf="showDateTime" 
+        display-format="DD/MM/YYYY" 
+        placeholder="Selecciona una fecha">
+      </ion-datetime>
+       
+      </div>
+  </div>
+  
+  <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-input readOnly="true" [(ngModel)]="fechaFin" label="Fecha Fin" fill="" placeholder=""></ion-input>
+  </ion-item>
+
+  
+
+
+  <ion-item class="custom-list" *ngIf="selectedClient">
+    <ion-row>
+      <ion-col>
+        <!-- <ion-input (keyup)="CalcularMontoCuota($event)" label="Monto" [(ngModel)]="monto" fill="" placeholder=""></ion-input> -->
+        <ion-input label="Monto" [(ngModel)]="monto" fill="" placeholder=""></ion-input>
+
+      </ion-col>
+      <ion-col>
+        <ion-input readOnly="true" label="Monto Cuota" [(ngModel)]="montoCuota" fill="" placeholder=""></ion-input>
+      </ion-col>
+    </ion-row>
+ 
+  </ion-item>
+
+<!-- 
+  <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-input (keyup)="CalcularMontoCuota($event)" label="Monto" [(ngModel)]="monto" fill="" placeholder=""></ion-input>
+  </ion-item>
+
+  <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-input readOnly="true" label="Monto cuota" [(ngModel)]="montoCuota" fill="" placeholder=""></ion-input>
+  </ion-item> -->
+
+  <ion-button  *ngIf="selectedClient" [disabled]="!monto" expand="full" (click)="GenerarCouta()">
+    Generar couta
+  </ion-button>
+
+  <div *ngIf="montoCuota > 0">
+    <ion-item class="custom-list" *ngIf="selectedClient">
+      <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-input style="font-weight: bold;" readOnly="true" label="Capital :" [(ngModel)]="capitalPrestamo" fill="" placeholder=""></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input  style="font-weight: bold;" readOnly="true" label="Utilidad :" [(ngModel)]="utilidadPrestamo" fill="" placeholder=""></ion-input>
+        </ion-col>
+      </ion-row>
+   
+
+  
+    
+
+      <ion-row>
+        <ion-col>
+          <ion-input  style="font-weight: bold;" readOnly="true" label="Interes :" [(ngModel)]="interesString" fill="" placeholder=""></ion-input>
+        </ion-col>
+        <ion-col>
+          <ion-input  style="font-weight: bold;" readOnly="true" label="Total :" [(ngModel)]="total" fill="" placeholder=""></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    </ion-item>
+  
+    <ion-button  *ngIf="total > 0" expand="full" (click)="grabarPrestamo()">
+      Grabar
+    </ion-button>
+    
+  
+  </div>
+
+ 
+
+
+
+  <!-- Botón para registrar el crédito -->
+  <!-- <ion-button expand="full" [disabled]="!selectedClient || !creditoMonto" (click)="registrarCredito()">
+    Registrar Crédito
+  </ion-button> -->
+
+
+
+</ion-content>
