@@ -1,0 +1,48 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="closePage()" >
+        <ion-icon  slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="guardarOrden()" >
+        <ion-icon  slot="icon-only" name="save-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+
+    <ion-title>
+      Ordenar Prestamos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<!-- <ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">order</ion-title>
+    </ion-toolbar>
+  </ion-header>
+</ion-content> -->
+<ion-content>
+  <ion-list>
+    <!-- Habilitamos el componente ion-reorder-group para permitir el reordenamiento -->
+    <ion-reorder-group (ionItemReorder)="reordenar($event)" disabled="false">
+      <ion-item *ngFor="let prestamo of prestamos(); let i = index">
+        <div style="margin-right: 15px;">
+          <h1>{{ i + 1 }}</h1>
+        </div>
+        
+        <ion-label>
+          <h2><strong>{{prestamo.cliente}}</strong></h2>
+          <p>Cuota <strong>{{prestamo.cuotasPagadas}}/{{prestamo.cuotas}}</strong></p>
+        </ion-label>
+        <ion-reorder slot="end"></ion-reorder>
+      </ion-item>
+    </ion-reorder-group>
+  </ion-list>
+</ion-content>
+

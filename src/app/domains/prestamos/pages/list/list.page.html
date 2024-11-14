@@ -1,9 +1,15 @@
 <ion-header >
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-back-button></ion-back-button>
-      </ion-buttons>
-
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="closePage()" >
+        <ion-icon  slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="getPrestamos()" >
+        <ion-icon slot="icon-only" name="reload-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
       <ion-buttons slot="end">
         <ion-button (click)="nuevoPrestamo()" >
           <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
@@ -17,7 +23,7 @@
     <ion-toolbar>
       <ion-searchbar [debounce]="500" placeholder="Buscar" (ionInput)="onSearch($event)" ></ion-searchbar>
 
-      <ion-segment scrollable   value="todos">
+      <!-- <ion-segment scrollable   value="pendientes">
       <ion-segment-button (click)="changeFilter('TODOS')" value="todos">
         <ion-label>Todos</ion-label>
       </ion-segment-button>
@@ -30,31 +36,82 @@
       <ion-segment-button (click)="changeFilter('NUEVO')" value="nuevos">
         <ion-label>Nuevos</ion-label>
       </ion-segment-button>
-    </ion-segment>
+ 
+      
+    </ion-segment> -->
+
+
+ 
+
+
+
+
+
 
     </ion-toolbar>
+    <ion-card style="width: 100%;text-align: center;margin: 0px;">
 
-  </ion-header>
+      <div class="chip-container">
+        <ion-chip color="medium" (click)="changeFilter('TODOS')" [outline]="!(filtro() === 'TODOS')" aria-label="Mostrar todos los préstamos">
+          <ion-icon name="list-outline" color="medium"></ion-icon>
+          <ion-label>Todos</ion-label>
+        </ion-chip>
+    
+        <ion-chip color="success" (click)="changeFilter('PAGADO')" [outline]="!(filtro() === 'PAGADO')" aria-label="Mostrar préstamos pagados">
+          <ion-icon name="checkmark-done-outline" color="success"></ion-icon>
+          <ion-label>Pagados</ion-label>
+        </ion-chip>
+    
+        <ion-chip color="warning" (click)="changeFilter('PENDIENTE')" [outline]="!(filtro() === 'PENDIENTE')" aria-label="Mostrar préstamos pendientes">
+          <ion-icon name="time-outline" color="warning"></ion-icon>
+          <ion-label>Pendientes</ion-label>
+        </ion-chip>
+    
+        <ion-chip color="secondary" (click)="changeFilter('NUEVO')" [outline]="!(filtro() === 'NUEVO')" aria-label="Mostrar préstamos nuevos">
+          <ion-icon name="add-circle-outline" color="secondary"></ion-icon>
+          <ion-label>Nuevos</ion-label>
+        </ion-chip>
+        
+      </div>
 
-    <ion-item lines="full" >
       <ion-grid class="header-grid">
         <ion-row>
           <ion-col style="text-align: center;" size="12">
-            <strong>Octubre 04 de 2024 - Ruta: ANGEL</strong>
+            <strong>{{fechaRuta}}</strong>
           </ion-col>
         </ion-row>
         <ion-row> 
           <!-- Nueva columna 1: Meta 250 -->
           <ion-col style="text-align: left;" size="6">
-            <strong>Creditos: {{prestamos().length}}</strong>
+            <strong>Prestamos: {{prestamosByfilter().length}}</strong>
           </ion-col>
           <!-- Nueva columna 2: Cobrado 250 -->
           <ion-col style="text-align: right;" size="6">
-            <strong>Cobrado: {{cobrado()}}</strong>
+            <strong>Recaudado: {{cobrado() | currency:'S/':'symbol'  }}</strong>
           </ion-col>
         </ion-row>
       </ion-grid>
-    </ion-item>
+      <ion-card-content>
+        <!-- Indicador de Progreso con color dinámico -->
+        <ion-progress-bar [value]="progresoCobro" [color]="colorBarra"></ion-progress-bar>
+    
+        <!-- Texto de Progreso con Porcentaje -->
+        <p>{{ cobrados }} de {{ totalCreditos }} créditos cobrados ({{ (progresoCobro * 100) | number:'1.0-2' }}%)</p>
+        <!-- <p>Faltan {{ faltanCobrar }} créditos por cobrar</p> -->
+      </ion-card-content>
+    </ion-card>
+  </ion-header>
+
+    <!-- <ion-item lines="full" > -->
+     
+    <!-- </ion-item> -->
+  <!-- <ion-item lines="none"> -->
+      <!-- <ion-progress-bar [value]="progresoCobro"
+     [color]="colorBarra"
+     >
+      ></ion-progress-bar> -->
+    
+<!-- </ion-item> -->
 
      
 
@@ -76,8 +133,13 @@
         Prestamos
       </ion-list-header> -->
             <app-prestamo *ngFor="let prestamo of prestamosByfilter();let i = index" [prestamo]="prestamo" [indice]="i" 
-            (showPayInput)="showPayInput(i)"  (hidePayInput)="hidePayInput(i)" (pagarPrestamo)="pagarPrestamo(prestamo)"></app-prestamo>
+            (showPayInput)="showPayInput(prestamo)"  (hidePayInput)="hidePayInput(prestamo)" (pagarPrestamo)="pagarPrestamo(prestamo)"></app-prestamo>
     </ion-list>
+
+    <ion-item lines="none" *ngIf="prestamosByfilter().length == 0">
+      <ion-icon name="information-circle-outline" size="large" color="medium" class="no-data-icon"></ion-icon>
+      <ion-label>No hay registros para mostrar.</ion-label>
+    </ion-item>
 
     <!-- <ion-list *ngIf="prestamosByfilter().length <= 0 && !flagResponsePrestamo"  >
 

@@ -1,0 +1,85 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="closePage()">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Detalle Préstamo</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-list class="payment-list">
+      <ion-list-header color="light">
+        <ion-label>Movimientos de pago del cliente {{prestamo.cliente}}</ion-label>
+      </ion-list-header>
+    </ion-list>
+
+     <!-- Cabecera del Préstamo -->
+  <ion-card class="loan-summary-card">
+    <ion-card-content>
+      <div class="loan-details">
+        <ion-row>
+          <ion-col>
+            <ion-label color="medium">Monto capital</ion-label>
+            <h2>{{prestamo.montoCapital | currency:'S/':'symbol'}}</h2>
+          </ion-col>
+          <ion-col>
+            <ion-label color="medium">Monto total</ion-label>
+            <h2>{{prestamo.montoTotal | currency:'S/':'symbol'}}</h2>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label color="medium">Fecha Inicial</ion-label>
+            <p>{{prestamo.fechaInicial}}</p>
+          </ion-col>
+          <ion-col>
+            <ion-label color="medium">Fecha Final</ion-label>
+            <p>{{prestamo.fechaFinal}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label color="medium">Cuotas Totales</ion-label>
+            <p>{{prestamo.cuotas}}</p>
+          </ion-col>
+          <ion-col>
+            <ion-label color="medium">Forma de Pago</ion-label>
+            <p>{{prestamo.formaPago}}</p>
+          </ion-col>
+        </ion-row>
+
+        <!-- Progreso del Pago -->
+        <ion-progress-bar value="{{ montoPagado / prestamo.montoTotal}}" color="tertiary"></ion-progress-bar>
+        <p class="progress-label">{{ (montoPagado / prestamo.montoTotal) * 100 | number:'1.0-0' }}% Pagado</p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-list class="payment-list">
+    <ion-list-header color="light">
+      <ion-label>Historial de Pagos {{ montoPagado | currency:'S/':'symbol'}}</ion-label>
+    </ion-list-header>
+  </ion-list>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="prestamo" [fullscreen]="true" class="loan-details-content">
+
+ 
+  <!-- Listado de Pagos -->
+
+    
+    <ion-item *ngFor="let pago of detalle">
+      <ion-icon color="success" name="cash-outline" slot="start"></ion-icon>
+      <ion-label>
+        <h3>Fecha: {{pago.fechaCobro }}</h3>
+        <p>Monto Cuota: {{pago.montoCuota | currency:'S/':'symbol'}}</p>
+        <p>Monto Pagado: {{pago.montoPagado | currency:'S/':'symbol'}}</p>
+        <p>Cuotas Pendientes: {{pago.cuotasPendientes }}</p>
+        <p>Cuotas Pagadas: {{pago.cuotasPagadas }}</p>
+      </ion-label>
+      <!-- <ion-badge color="{{pago.estadoPago === 'PAGADO' ? 'success' : 'warning'}}" slot="end">{{ pago.estadoPago }}</ion-badge> -->
+    </ion-item>
+
+
+</ion-content>

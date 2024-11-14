@@ -1,0 +1,25 @@
+<ion-content class="login-container" color="secondary">
+  <div class="login-page">
+
+    <div class="form">
+      <h1 style="color: black;font-size: 22px;">Ingresa tu cuenta</h1>
+      <div class="container-login">
+      <form class="login-form">
+        <input type="text" autocomplete="false"  [(ngModel)]="data.username" [ngModelOptions]="{standalone: true}" placeholder="usuario"/>
+        <input type="password" autocomplete="false" [(ngModel)]="data.password" [ngModelOptions]="{standalone: true}" placeholder="contraseña"/>
+        <input type="text" autocomplete="false" [(ngModel)]="data.code" [ngModelOptions]="{standalone: true}" placeholder="codigo"/>
+        <button (click)="login()" [disabled]="logueando || (data.username === '' || data.password === '' || data.code === '')">
+          @if(!logueando){
+            <span>Ingresar</span>
+          }@else{
+            <ion-spinner color="light"></ion-spinner>
+          }
+        </button>
+       
+      </form>
+        
+      </div>
+      
+    </div>
+  </div>
+</ion-content>

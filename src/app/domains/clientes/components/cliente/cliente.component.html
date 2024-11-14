@@ -1,10 +1,19 @@
 <ion-item  *ngIf="cliente && !cliente.isEditando" [detail]="false">
+
+  @if(cliente.estado == 'ACTIVO'){
+    <ion-icon slot="start" color="success" name="ellipse-outline"></ion-icon>
+  }@else{
+    <ion-icon slot="start" color="danger" name="ellipse-outline"></ion-icon>
+  }
+ 
+  
+
   <ion-label>
     <h2><strong>{{cliente.nombreCompleto}}</strong></h2>
     <p>{{cliente.tipoDocumento}} {{cliente.numeroDocumento}}</p>
     <p><strong>{{cliente.direccion}}</strong></p>
   </ion-label>
-  <ion-button slot="end" shape="round" color="tertiary" size="default" (click)="editarDatosHandler()" >
-    <ion-icon slot="icon-only" style="color: white;" name="pencil-outline"></ion-icon>
+  <ion-button fill="outline" slot="end" shape="round" color="secondary" size="default" (click)="editarDatosHandler()" >
+    <ion-icon slot="icon-only" name="pencil-outline"></ion-icon>
   </ion-button>
 </ion-item>

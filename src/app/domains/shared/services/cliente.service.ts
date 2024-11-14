@@ -4,6 +4,8 @@ import { Response } from '../models/response.model';
 import { Observable } from 'rxjs';
 import { Cliente } from '../models/cliente.model';
 
+import { environment } from 'src/environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,31 +14,32 @@ export class ClienteService {
   private http = inject(HttpClient)
 
   // private apiUrl = 'https://localhost:7283/api/v1/cliente';
-  private apiUrl = 'https://qaapi.factoringplusperu.com/qa.apifactoringtest/api/v1/cliente'
+  private apiUrl = environment.ApiUrl + '/cliente'
 
   constructor() { }
 
-  getClientes() {
-    return this.http.get<Response>(this.apiUrl)
+  getClientes(idRuta : number) {
+    return this.http.get<Response>(this.apiUrl + '/' + idRuta)
   }
 
-  insertaCliente(cliente : Cliente): Observable<any> {
-    debugger;
+  insertaCliente(cliente : Cliente,usuariCreacion:number,idRuta : number): Observable<any> {
+   
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { 
       idTipoDocumento : cliente.idTipoDocumento,
-      numeroDocumento : cliente.numeroDocumento,
+      numeroDocumento : String(cliente.numeroDocumento),
       nombres : cliente.nombres,
       apellidos : cliente.apellidos,
       direccion : cliente.direccion,
-      celular : cliente.celular,
-      usuarioCreacion : "ADMIN",
-      estado : cliente.codigoEstado
+      celular : String(cliente.celular),
+      usuarioCreacion : usuariCreacion,
+      estado : cliente.codigoEstado,
+      idRuta
      };
-    return this.http.post(this.apiUrl, body, { headers });
+    return this.http.post<Response>(this.apiUrl, body, { headers });
   }
 
-  actualizaCliente(cliente : Cliente): Observable<any> {
+  actualizaCliente(cliente : Cliente,usuarioModificacion:number): Observable<any> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     const body = { 
 
@@ -45,7 +48,7 @@ export class ClienteService {
       apellidos : cliente.apellidos,
       direccion : cliente.direccion,
       celular : cliente.celular,
-      usuarioModificacion : "ADMIN",
+      usuarioModificacion : usuarioModificacion,
       estado : cliente.codigoEstado
      };
     return this.http.post(this.apiUrl + '/update', body, { headers });

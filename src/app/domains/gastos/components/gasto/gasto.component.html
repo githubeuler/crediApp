@@ -1,0 +1,14 @@
+<ion-item  *ngIf="gasto" [detail]="false">
+  <ion-badge slot="start" color="secondary">
+    {{gasto.monto | currency:'S/':'symbol'}}
+  </ion-badge>
+
+  <ion-label>
+    <h2><strong>{{gasto.nombre}}</strong></h2>
+    <p>{{gasto.concepto}}</p>
+    <!-- <p><strong>{{cliente.direccion}}</strong></p> -->
+  </ion-label>
+  <!-- <ion-button slot="end" shape="round" color="tertiary" size="default" (click)="editarDatosHandler()" >
+    <ion-icon slot="icon-only" style="color: white;" name="pencil-outline"></ion-icon>
+  </ion-button> -->
+</ion-item>

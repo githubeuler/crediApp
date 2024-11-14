@@ -14,6 +14,9 @@ import { Menu } from '../domains/shared/models/menu.model';
 })
 export class HomePage implements OnInit  {
   router = inject(Router)
+  user: any;
+  nombre : string =''
+
   constructor() {}
 
 menu : Menu[] = [
@@ -23,7 +26,7 @@ menu : Menu[] = [
     descripcion:'',
     ruta:'prestamo',
     icono :'cash-outline',
-    color:''
+    color:'success'
 
   },
   {
@@ -32,7 +35,7 @@ menu : Menu[] = [
     descripcion:'',
     ruta:'cliente',
     icono :'people-outline',
-    color:''
+    color:'primary'
 
   },
   {
@@ -41,7 +44,7 @@ menu : Menu[] = [
     descripcion:'',
     ruta:'gasto',
     icono :'file-tray-full-outline',
-    color:''
+    color:'secondary'
 
   },
   {
@@ -49,27 +52,70 @@ menu : Menu[] = [
     nombre:  'Liquidacion',
     descripcion:'',
     ruta:'liquidacion',
-    icono :'cash-outline',
-    color:''
+    icono :'checkmark-circle-outline',
+    color:'tertiary'
+
+  },
+  {
+    idMenu : 1,
+    nombre:  'Enrutar',
+    descripcion:'',
+    ruta:'order',
+    icono :'reorder-four-outline',
+    color:'warning'
 
   }
 ]
+
+// contacts = [
+//   { name: 'Plinear a contacto', image: 'assets/plin.png' },
+//   { name: 'Iris Ramírez', image: 'assets/iris.png' },
+//   { name: 'Jorge Tuesta', image: 'assets/jorge.png' },
+//   { name: 'Jerry Boy', image: 'assets/jerry.png' }
+// ];
+
+// products = [
+//   { name: 'Mi Billete', info: 'Saldo disponible', icon: 'assets/piggy-bank.png' },
+//   { name: 'The Platinum Card', info: 'Línea disponible', icon: 'assets/credit-card.png' },
+//   { name: 'trabaja perro', info: 'Línea disponible', icon: 'assets/credit-card.png' },
+//   { name: 'IBK Visa Access', info: 'Línea disponible', icon: 'assets/credit-card.png' }
+//   ];
+
 
   // Navega a la página correspondiente
   goToPage(page: string) {
     this.router.navigate([`/${page}`]);
   }
 
+  logout() {
+    // Limpiar el localStorage
+    localStorage.removeItem('user');
+
+    // Redirigir al login y limpiar el historial de navegación
+    this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
   ngOnInit() {
-    // Use matchMedia to check the user preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    // Initialize the dark palette based on the initial
-    // value of the prefers-color-scheme media query
-    this.initializeDarkPalette(prefersDark.matches);
+    const userData = localStorage.getItem('user');
+    if (userData) {
+     
+      this.user = JSON.parse(userData);
+      this.nombre = this.user.nombres
 
-    // Listen for changes to the prefers-color-scheme media query
-    prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkPalette(mediaQuery.matches));
+    }
+
+
+    // // Use matchMedia to check the user preference
+    // const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+
+    // // Initialize the dark palette based on the initial
+    // // value of the prefers-color-scheme media query
+    // this.initializeDarkPalette(prefersDark.matches);
+
+    // // Listen for changes to the prefers-color-scheme media query
+    // prefersDark.addEventListener('change', (mediaQuery) => this.initializeDarkPalette(mediaQuery.matches));
+    
   }
 
   paletteToggle = false;

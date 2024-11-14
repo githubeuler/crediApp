@@ -1,13 +1,48 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>list</ion-title>
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-button (click)="closePage()" >
+        <ion-icon  slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="nuevoGasto()" >
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+
+    <ion-title>Gastos</ion-title>
   </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar [debounce]="500" placeholder="Buscar" (ionInput)="onSearch($event)" ></ion-searchbar>
+    
+    
+  </ion-toolbar>
+
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
+  <!-- <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">list</ion-title>
     </ion-toolbar>
-  </ion-header>
+  </ion-header> -->
+  <ion-list>
+    <div *ngFor="let gasto of gastosByfilter();let i = index">
+      <app-gasto  *ngIf="!gasto.isEditando" [gasto]="gasto" [indice]="i"></app-gasto>
+      <app-nuevogasto *ngIf="gasto.isEditando" [gasto]="gasto" [subGastos]="subGastos()" [indice]="i" (cancelar)="cancelar(gasto)" (guardar)="guardar(gasto)"></app-nuevogasto>
+    </div>
+   </ion-list>
+
+ 
+
+        <ion-item lines="none" *ngIf="gastos().length == 0">
+          <ion-icon name="information-circle-outline" size="large" color="medium" class="no-data-icon"></ion-icon>
+          <ion-label>No hay registros para mostrar.</ion-label>
+        </ion-item>
+
+
+
+
 </ion-content>

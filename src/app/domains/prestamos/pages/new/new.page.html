@@ -1,7 +1,9 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button (click)="closePage()" >
+        <ion-icon  slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
 
@@ -74,7 +76,7 @@
   <ion-item class="custom-list" *ngIf="selectedClient">
     <ion-row>
       <ion-col>
-        <ion-select  fill="" label="Tipo Pago" interface="popover" [(ngModel)]="idTipoPago" (ionChange)="cambiarTipoPago($event)">
+        <ion-select  fill="" label="Tipo Pago" [value]="1" [(ngModel)]="idTipoPago" (ionChange)="cambiarTipoPago($event)">
           <ion-select-option *ngFor="let item of tipoPagos()"   [value]="item.id">{{item.descripcion}}</ion-select-option>
         </ion-select>
       </ion-col>
@@ -93,12 +95,12 @@
 
 
   <!-- Campo para registrar el monto del crédito -->
-  <div class="datetime-container">
+  <!-- <div class="datetime-container">
     <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
       <ion-input [(ngModel)]="fechaInicio" (ionFocus)="mostrarDateTime()" (ionBlur)="ocultarDateTime()" label="Fecha Inicio" fill="" placeholder=""></ion-input>
     </ion-item>
     <div class="datetime-list">
-      <!-- Datetime oculto por defecto -->
+
       <ion-datetime
         id="fechaDateTime" 
         (ionChange)="seleccionarFecha($event)" 
@@ -108,10 +110,39 @@
       </ion-datetime>
        
       </div>
-  </div>
+  </div> -->
+  <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
+    <ion-label>Fecha Inicio</ion-label>
+    <ion-label> {{selectedDate}}</ion-label>
+   
+    <!-- <ion-input id="datetime" [(ngModel)]="fechaInicio" label="Fecha Inicio" fill="" placeholder=""></ion-input> -->
+    <!-- <ion-datetime-button  datetime="datetime"></ion-datetime-button> -->
+
+      <!-- <ion-icon (click)="openDateModal()" color="secondary" name="calendar-number-outline"></ion-icon> -->
+      <ion-icon #button id="click-trigger" color="secondary" name="calendar-number-outline"></ion-icon>
+      
+  <ion-popover 
+  side="start"
+  size="auto"
+  animated="true"
+  alignment="start" trigger="click-trigger" triggerAction="click">
+    <ng-template>
+      <ion-datetime locale="es-ES"  display-format="DD/MM/YYYY"  (ionChange)="onDateSelected($event)" presentation="date" id="datetime" [showDefaultButtons]="true" doneText="OK" cancelText="CANCELAR"></ion-datetime>
+    </ng-template>
+  </ion-popover>
+
+  </ion-item>
+  <!-- <ion-modal [keepContentsMounted]="true" #dateModal>
+    <ng-template>
+      <ion-datetime  [min]="minDate"  locale="es-ES"  display-format="DD/MM/YYYY"  [showDefaultButtons]="true" doneText="OK" cancelText="CANCELAR"  [presentation]="'date'" id="datetime"></ion-datetime>
+    </ng-template>
+  </ion-modal> -->
+
   
   <ion-item class="custom-list" lines="none"  *ngIf="selectedClient">
-    <ion-input readOnly="true" [(ngModel)]="fechaFin" label="Fecha Fin" fill="" placeholder=""></ion-input>
+    <ion-label>Fecha Fin</ion-label>
+    <ion-label> {{fechaFin}}</ion-label>
+    <!-- <ion-input readOnly="true" [(ngModel)]="fechaFin" label="Fecha Fin" fill="" placeholder=""></ion-input> -->
   </ion-item>
 
   

@@ -33,25 +33,16 @@
  * https://ionicframework.com/docs/theming/dark-mode
  */
 
-/* @import "@ionic/angular/css/palettes/dark.always.css"; */
-/* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
+// @import "@ionic/angular/css/palettes/dark.always.css"; 
+@import "@ionic/angular/css/palettes/dark.class.css"; 
+// @import "@ionic/angular/css/palettes/dark.system.css";
 
-/**
- * Ionic Dark Palette
- * -----------------------------------------------------
- * For more information, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
 
-/* @import '@ionic/angular/css/palettes/dark.always.css'; */
-@import '@ionic/angular/css/palettes/dark.class.css';
-/* @import '@ionic/angular/css/palettes/dark.system.css'; */
 
 /* (Optional) This is added to prevent the flashing that happens when toggling between palettes */
-ion-item {
-  --transition: none;
-}
+// ion-item {
+//   --transition: none;
+// }
 
 
 // .custom-alert .alert-button-group {
@@ -107,4 +98,43 @@ ion-item {
 // }
 
 
+ion-modal {
+  --height: 50%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+  background: rgba(209, 213, 219);
+  opacity: 1;
+}
+
+ion-modal ion-toolbar {
+  --background: rgb(14 116 144);
+  --color: white;
+}
+
+
+
+
+
+// ion-toast.custom-toast {
+//   --background: #f4f4fa;
+//   --box-shadow: 3px 3px 10px 0 rgba(0, 0, 0, 0.2);
+//   --color: #4b4a50;
+// }
+
+// ion-toast.custom-toast::part(message) {
+//   font-style: italic;
+// }
+
+// ion-toast.custom-toast::part(button) {
+//   border-left: 1px solid #d2d2d2;
+//   color: #030207;
+//   font-size: 15px;
+// }
+
+
+// regular style toast
+@import 'ngx-toastr/toastr';
 

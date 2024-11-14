@@ -1,41 +1,69 @@
 <ion-list *ngIf="cliente" lines="none" class="custom-list">
 
-  <ion-item *ngIf="cliente.idCliente == 0"  class="custom-list">
-    <ion-select fill="" label="Tipo documento" interface="popover" [(ngModel)]="cliente.idTipoDocumento"  label-placement="" placeholder="">
-      <ion-select-option value="1">DNI</ion-select-option>
-      <ion-select-option value="2">CE</ion-select-option>
-    </ion-select>
+  <ion-item class="custom-list">
+   
+    @if(cliente.idCliente == 0){
+      <ion-select  fill="" label="Tipo documento" interface=""   [value]="cliente.idTipoDocumento"  [(ngModel)]="cliente.idTipoDocumento" >
+        <!-- <ion-select-option value="1">DNI</ion-select-option>
+        <ion-select-option value="2">CE</ion-select-option> -->
+        <ion-select-option *ngFor="let item of tipoDocumentos()"   [value]="item.id">{{item.descripcion}}</ion-select-option>
+      </ion-select>
+    }@else{
+        <ion-label>Tipo documento :</ion-label>
+      <ion-label>{{cliente.tipoDocumento}}</ion-label>
+    }
   </ion-item>
 
-  <ion-item *ngIf="cliente.idCliente != 0" class="custom-list">
-    <ion-input ReadOnly="true" type="text" fill="" label="Tipo documento" placeholder="Ingrese Documento"  [(ngModel)]="cliente.tipoDocumento"></ion-input>
+  <ion-item  class="custom-list">
+    <ion-label>Documento:</ion-label>
+    @if(cliente.idCliente == 0){
+      <ion-label>&nbsp;&nbsp;</ion-label>
+      <ion-input type="number"  placeholder="Ingrese documento" fill=""  [(ngModel)]="cliente.numeroDocumento"></ion-input>
+    }@else{
+      <ion-label>{{cliente.numeroDocumento}}</ion-label>
+    }
   </ion-item>
 
+  <!-- <ion-item *ngIf="cliente.idCliente != 0" class="custom-list">
+    <ion-label>Documento</ion-label>
+    <ion-label style="font-size: 25px;">{{cliente.numeroDocumento}}</ion-label>
+  </ion-item> -->
 
-  <ion-item *ngIf="cliente.idCliente == 0" class="custom-list">
+  <!-- <ion-item *ngIf="cliente.idCliente == 0" class="custom-list">
     <ion-input type="text" label="Numero documento" placeholder="Ingrese Numero" fill=""  [(ngModel)]="cliente.numeroDocumento"></ion-input>
   </ion-item>
 
   <ion-item *ngIf="cliente.idCliente != 0"  class="custom-list">
     <ion-input  ReadOnly="true" type="text" label="Numero documento" placeholder="Ingrese Numero" fill=""  [(ngModel)]="cliente.numeroDocumento"></ion-input>
+  </ion-item> -->
+
+  <ion-item  class="custom-list">
+    <ion-label>Nombres:</ion-label>
+    <ion-label>&nbsp;&nbsp;</ion-label>
+    <ion-input type="text" placeholder="Ingrese nombres" fill="" [(ngModel)]="cliente.nombres"></ion-input>
+  </ion-item>
+  <ion-item  class="custom-list">
+    <ion-label>Apellidos:</ion-label>
+    <ion-label>&nbsp;&nbsp;</ion-label>
+    <ion-input type="text" placeholder="Ingrese apellidos" fill="" [(ngModel)]="cliente.apellidos"></ion-input>
+  </ion-item>
+  <ion-item  class="custom-list">
+    <ion-label>Direccion:</ion-label>
+    <ion-label>&nbsp;&nbsp;</ion-label>
+    <ion-input type="text" placeholder="Ingrese direccion" fill="" [(ngModel)]="cliente.direccion"></ion-input>
+  </ion-item>
+  <ion-item  class="custom-list">
+    <ion-label>Celular:</ion-label>
+    <ion-label>&nbsp;&nbsp;</ion-label>
+    <ion-input type="text" placeholder="Ingrese celular" fill="" [(ngModel)]="cliente.celular"></ion-input>
+  </ion-item>
+  <ion-item  class="custom-list">
+    <ion-label>Estado:</ion-label>
+    <ion-label>&nbsp;&nbsp;</ion-label>
+    <ion-toggle mode="ios" [checked]="cliente.codigoEstado" fill="" [(ngModel)]="cliente.codigoEstado"></ion-toggle>
   </ion-item>
 
 
-  <ion-item class="custom-list">
-    <ion-input type="text" label="Nombres" placeholder="Ingrese Nombres" fill="" [(ngModel)]="cliente.nombres"></ion-input>
-  </ion-item>
-  <ion-item class="custom-list">
-    <ion-input type="text" label="Apellidos" placeholder="Ingrese Apellidos" fill="" [(ngModel)]="cliente.apellidos"></ion-input>
-  </ion-item>
-  <ion-item class="custom-list">
-    <ion-input type="text" label="Direccion" placeholder="Ingrese Direccion" fill="" [(ngModel)]="cliente.direccion"></ion-input>
-  </ion-item>
-  <ion-item class="custom-list">
-    <ion-input type="text" label="Celular" placeholder="Ingrese Celular" fill="" [(ngModel)]="cliente.celular"></ion-input>
-  </ion-item>
-  <ion-item class="custom-list">
-    <ion-toggle mode="ios" [checked]="cliente.codigoEstado" fill="" [(ngModel)]="cliente.codigoEstado">Estado</ion-toggle>
-  </ion-item>
 
 
 

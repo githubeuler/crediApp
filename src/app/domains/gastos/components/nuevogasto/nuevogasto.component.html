@@ -1,0 +1,30 @@
+<!-- <ion-item>
+  <ion-select  fill="" label="Gasto" interface="popover" [(ngModel)]="idTipoPago" (ionChange)="cambiarSubGasto($event)">
+    <ion-select-option *ngFor="let item of subGastos"   [value]="item.id">{{item.nombre}}</ion-select-option>
+  </ion-select>
+</ion-item> -->
+<div *ngIf="gasto" class="custom-list">
+  <ion-item class="custom-list" lines="none">
+    <ion-select  fill="" label="Gasto" interface=""  [(ngModel)]="gasto.idGasto">
+      <ion-select-option *ngFor="let item of subGastos" [value]="item.id">{{item.descripcion}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  
+  <ion-item class="custom-list" lines="none">
+    <ion-input label="Monto" fill=""  [(ngModel)]="gasto.monto" placeholder=""></ion-input>
+  </ion-item>
+  
+  <ion-item class="custom-list" lines="none">
+    <ion-textarea  label="Concepto" fill=""  [(ngModel)]="gasto.concepto" placeholder=""></ion-textarea >
+  </ion-item>
+
+  <ion-item style="padding: 20px!important;" lines="none">
+    <ion-button slot="start" shape="round" color="medium" size="default" (click)="cancelarHandler()" >
+      <ion-icon slot="icon-only" style="color: white;" name="close"></ion-icon>
+    </ion-button>
+    <ion-button slot="end" shape="round" color="success" size="default" (click)="guardarHandler()" >
+      <ion-icon slot="icon-only" style="color: white;" name="save"></ion-icon>
+    </ion-button>
+  </ion-item>
+  
+</div>

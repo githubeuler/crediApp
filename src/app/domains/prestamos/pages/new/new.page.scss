@@ -12,9 +12,9 @@
   right: 0;
   z-index: 10;
   /* Para asegurarnos de que se superpone sobre otros elementos */
-  background-color: white;
+  //background-color: white;
   /* Fondo blanco para diferenciarlo del contenido */
-  border: 1px solid #ccc;
+  //border: 1px solid #ccc;
   /* Borde ligero para resaltar la caja */
   max-height: 300px;
   /* Limitar la altura */
@@ -27,12 +27,12 @@
 }
 
 .autocomplete-list ion-item {
-  --background: #ffffff;
-  --border-color: #ccc;
+  //--background: #ffffff;
+  //--border-color: #ccc;
 }
 
 .autocomplete-list ion-item:hover {
-  background-color: #f0f0f0;
+  //background-color: #f0f0f0;
   /* Cambiar el color de fondo cuando el usuario pasa el mouse */
 }
 

@@ -1,0 +1,16 @@
+
+.chip-container {
+    display: flex;
+    overflow-x: auto;  /* Permite desplazamiento horizontal */
+    padding: 5px 0;
+    white-space: nowrap; /* Evita que los elementos se envuelvan */
+  }
+  
+  ion-chip {
+    flex: 0 0 auto; /* Mantiene el ancho de cada chip sin comprimir */
+    margin-right: 3px;
+    --padding-start: 5px;
+    --padding-end: 3px;
+    --border-radius: 20px;
+    font-weight: 600;
+  }

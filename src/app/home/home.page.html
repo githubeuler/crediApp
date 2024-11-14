@@ -1,22 +1,35 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
 
    
-
+    <!-- <ion-buttons slot="end">
+      <ion-button (click)="logout()" >
+        <ion-icon color="danger"  slot="icon-only" name="power-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
     <ion-title>
-      Bienvenido Euler
+      Bienvenido {{nombre}}
     </ion-title>
    
   </ion-toolbar>
   <ion-toolbar>
     <!-- <ion-list-header>Apariencia</ion-list-header> -->
-    <ion-list [inset]="true">
-      <ion-item>
-        <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between"
+   
+        <ion-buttons  slot="start">
+        <ion-button  (click)="toggleChange($event)" shape="round" size="large">
+          <ion-icon slot="icon-only" name="invert-mode-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-buttons slot="end">
+      
+        <ion-button  (click)="logout()" >
+          <ion-icon color="danger"  slot="icon-only" name="power-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+        <!-- <ion-toggle [(ngModel)]="paletteToggle" (ionChange)="toggleChange($event)" justify="space-between"
           >Modo Oscuro</ion-toggle
-        >
-      </ion-item>
-    </ion-list>
+        > -->
+
   </ion-toolbar>
 
 </ion-header>
@@ -28,7 +41,7 @@
       <ion-col size="6" *ngFor="let item of menu">
         <ion-card button (click)="goToPage(item.ruta)">
           <ion-card-content class="menu-card">
-            <ion-icon [name]="item.icono" size="large"></ion-icon>
+            <ion-icon [name]="item.icono" [color]="item.color" size="large"></ion-icon>
             <h2>{{ item.nombre }}</h2>
           </ion-card-content>
         </ion-card>

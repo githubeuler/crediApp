@@ -1,13 +1,14 @@
 import { Component, OnInit, Signal, ViewChild, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonDatetime } from '@ionic/angular';
+import { AlertController, IonDatetime } from '@ionic/angular';
 import { Cliente } from 'src/app/domains/shared/models/cliente.model';
 import { Combo } from 'src/app/domains/shared/models/combo.model';
 import { Prestamo } from 'src/app/domains/shared/models/prestamo.model';
 import { ClienteService } from 'src/app/domains/shared/services/cliente.service';
 import { GeneralService } from 'src/app/domains/shared/services/general.service';
 import { PrestamoService } from 'src/app/domains/shared/services/prestamo.service';
-
+import { formatDate } from '@angular/common';
+import { InterfaceService } from 'src/app/domains/shared/services/interface.service';
 
 @Component({
   selector: 'app-new',
@@ -19,6 +20,9 @@ export class NewPage implements OnInit {
   private clienteService = inject(ClienteService)
   private generalService = inject(GeneralService)
   private prestamoService = inject(PrestamoService);
+  private toast = inject(InterfaceService)
+  private interfaceService = inject(InterfaceService)
+  private alertController = inject(AlertController)
 
   private router = inject(Router)
 
@@ -27,14 +31,53 @@ export class NewPage implements OnInit {
 
   tipoPagos = signal<Combo[]>([]); 
 
+  presentingElement : any;
 
-  selectedDate: string = ''
   cuotas : number = 0
+  minDate: string = ''; // La fecha mínima es hoy
 
-  constructor() { }
+  @ViewChild('dateModal') dateModal: any;
+  selectedDate: string | null = null;
+
+  constructor() { 
+    this.setMinDate()
+  }
+  setMinDate() {
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate()) //+ 1); // Sumamos un día
+    this.minDate = tomorrow.toISOString(); // Establecemos mañana como la fecha mínima
+  }
+
+  async onDateSelected(event: any) {
+    const selected = event.detail.value;
+    this.selectedDate = formatDate(selected, 'dd/MM/yyyy', 'en'); // Guardamos la fecha seleccionada
+    const fechaInicio = this.addDaysToDate(this.selectedDate, 0);
+    const nuevaFe = this.addDaysToDate(this.selectedDate, this.cuotas);
+    const nuevaFeCbro = this.addDaysToDate(this.selectedDate, 1);
+    this.fechaInicio = fechaInicio
+    this.fechaFin = nuevaFe
+    this.fechaCobro = nuevaFeCbro
+    this.showDateTime = false;
+
+
+    //await this.dateModal.dismiss(); // Cerramos el modal
+  }
+async openDateModal() {
+    await this.dateModal.present();
+  }
+
+  user : any;
 
   ngOnInit() {
-    this.clienteService.getClientes().subscribe(
+    const userData = localStorage.getItem('user');
+    if (userData) {
+     
+      this.user = JSON.parse(userData);
+     
+    }
+
+    this.clienteService.getClientes(this.user.idRuta).subscribe(
       {
         next:(data)=>{
             this.clientes.set(data.data)
@@ -42,17 +85,25 @@ export class NewPage implements OnInit {
       }
     )
 
-    this.generalService.getCombo("TIPOPAGO").subscribe(
+    this.generalService.getCombo("TIPOPAGO",'1').subscribe(
       {
         next:(data)=>{
+          if (data.succeeded == true) {
             this.tipoPagos.set(data.data)
+            this.idTipoPago = data.data[0].id
+            this.cuotas = data.data[0].value1
             console.log(this.tipoPagos())
+          }
+           
         }
       }
     )
 
+    this.presentingElement = document.querySelector('.ion-page');
+  }
 
-
+  closePage(){
+    this.router.navigate(['/prestamo']);
   }
 
   searchTerm: string = '';
@@ -70,6 +121,8 @@ export class NewPage implements OnInit {
   showDateTime:boolean = false
 
   isNuevo : boolean = false
+
+  
 
   mostrarDateTime() {
     console.log('mostrar')
@@ -89,55 +142,26 @@ fechaFin : string = ''
 monto! : number
 montoCuota : number = 0
 
-  seleccionarFecha(event: any) {
-
-    
-    const fechaSeleccionada = new Date(event.detail.value);
+  
 
 
+   parseDate(dateString: string): Date {
+    const [day, month, year] = dateString.split("/").map(Number);
+    return new Date(year, month - 1, day); // Meses en JavaScript son base 0 (enero es 0)
+}
 
-      // Mostrar la fecha en el formato deseado
-      const fechaInicio = fechaSeleccionada.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
+ formatDate(date: Date): string {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Meses en base 0, así que sumamos 1
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+}
 
-      let nuevaFecha = new Date(fechaSeleccionada);
-
-      nuevaFecha.setDate(nuevaFecha.getDate() + this.cuotas);
-
-      const nuevaFe = nuevaFecha.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-
-      let fechaCobro = new Date(fechaSeleccionada);
-
-      fechaCobro.setDate(fechaCobro.getDate() + 1);
-
-      const nuevaFeCbro = fechaCobro.toLocaleDateString('es-ES', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric'
-      });
-
-
-
-
-
-      console.log(fechaInicio);
-      this.fechaInicio = fechaInicio
-      this.fechaFin = nuevaFe
-      this.fechaCobro = nuevaFeCbro
-
-
-
-
-      this.showDateTime = false;
-
-  }
+ addDaysToDate(dateString: string, days: number): string {
+    const date = this.parseDate(dateString);
+    const resultDate = new Date(date.getTime() + days * 24 * 60 * 60 * 1000); // Añade los días en milisegundos
+    return this.formatDate(resultDate);
+}
 
   // ejecutarBackButton() {
   //   this.navController.back();  // Simula la acción del ion-back-button
@@ -198,7 +222,7 @@ montoCuota : number = 0
     console.log('Crear nuevo cliente');
     const nuevoCliente  = {
       idCliente:0,
-      idTipoDocumento: 0,
+      idTipoDocumento: 1,
       tipoDocumento: '',
       numeroDocumento:'',
       nombres: '',
@@ -224,27 +248,42 @@ montoCuota : number = 0
 
   async guardar(cliente: Cliente) {
 
-    cliente.codigoEstado = Boolean(cliente.codigoEstado)
-    cliente.idCliente = 99999
-    cliente.nombreCompleto = cliente.nombres + ' ' + cliente.apellidos
-    cliente.tipoDocumento = cliente.idTipoDocumento == 1 ? 'DNI' : 'CE'
+    const loading = await this.interfaceService.showLoading()
+    loading.message = 'Espere por favor...'
+    loading.present()
+    this.clienteService.insertaCliente(cliente,this.user.idUsuario,this.user.idRuta).subscribe({
+      next: (data) => {
+        loading.dismiss()
+        if (data.succeeded == true) {
+          this.interfaceService.toastr('success','El cliente se registro correctamente',':)')
+          cliente.codigoEstado = Boolean(cliente.codigoEstado)
+          cliente.idCliente = 99999
+          cliente.nombreCompleto = cliente.nombres + ' ' + cliente.apellidos
+          cliente.tipoDocumento = cliente.idTipoDocumento == 1 ? 'DNI' : 'CE'
 
-    this.clienteService.insertaCliente(cliente).subscribe({
-      next: (response) => {
-        console.log('respose:', response);
-        cliente.idCliente = response.data
-        cliente.isEditando = false
-        this.cliente = cliente
+          console.log('respose:', data);
+          cliente.idCliente = data.data
+          cliente.isEditando = false
+          this.cliente = cliente
 
-        this.searchTerm = this.cliente.nombreCompleto
-        this.selectedClient = this.cliente
-        this.isNuevo = false
+          this.searchTerm = this.cliente.nombreCompleto
+          this.selectedClient = this.cliente
+          this.isNuevo = false
+        } else {
+          this.interfaceService.toastr('error',data.message,':(')
+        }
+        
 
 
       },
-      error: (error) => {
+      error: (data) => {
+        loading.dismiss();
         cliente.isEditando = true
-        console.error('Error en el pago:', error);
+
+        this.interfaceService.toastr('error',data.error.Message,':(')
+
+
+        console.error('Error en el pago:', data);
       },
     });
 
@@ -273,29 +312,75 @@ montoCuota : number = 0
   total!:number
 
   GenerarCouta(){
-    this.montoCuota = this.monto * (1 +  (this.interes / 100)) / this.cuotas
-    this.capitalPrestamo = this.monto
-    this.utilidadPrestamo = this.monto * ( (this.interes / 100)) 
+    if (this.fechaInicio.length <= 0) {
+      
+     this.interfaceService.toastr('warning','Favor de seleccionar fecha de inicio','Advertencia')
+    }else{
+      this.montoCuota = this.monto * (1 +  (this.interes / 100)) / this.cuotas
+      this.capitalPrestamo = this.monto
+      this.utilidadPrestamo = this.monto * ( (this.interes / 100)) 
+  
+      this.total = Number(this.capitalPrestamo) + Number(this.utilidadPrestamo)
+    }
 
-    this.total = Number(this.capitalPrestamo) + Number(this.utilidadPrestamo)
   }
   idTipoPago :number=0
   fechaCobro:string =''
 
-  grabarPrestamo() {
-console.log('grabarPrestamo')
-    this.prestamoService.insertaPrestamo(this.cliente.idCliente,1,this.idTipoPago,this.monto,this.montoCuota,this.interes,this.total,this.fechaInicio,this.fechaFin,this.fechaCobro,'UADMIN').subscribe(
+  async grabar(){
+    const loading = await this.interfaceService.showLoading()
+    loading.message = 'Espere por favor...'
+    loading.present()
+    this.prestamoService.insertaPrestamo(this.cliente.idCliente,this.user.idRuta,this.idTipoPago,this.monto,this.montoCuota,this.interes,this.total,this.fechaInicio,this.fechaFin,this.fechaCobro,this.user.idUsuario).subscribe(
       {
         next: (data) => {
+          loading.dismiss()
           console.log(data)
           if(data.succeeded == true){
+            this.interfaceService.toastr('success','El prestamo se registro correctamente',':)')
             console.log(data)
            // this.ejecutarBackButton()
-           this.router.navigate(['/prestamo'])
+           //this.router.navigate(['/prestamo'], { replaceUrl: true });
+           this.closePage()
+          }else{
+            this.interfaceService.toastr('error',data.message,':(')
           }
+        },
+        error:(data)=>{
+          loading.dismiss()
+          this.interfaceService.toastr('error',data.error.Message,':(')
+          console.log(data)
         }
       }
     )
+  }
+
+  async grabarPrestamo() {
+console.log('grabarPrestamo')
+const alert = await this.alertController.create({
+  header: 'Confirmar',
+  message: `¿Estás seguro de grabar los datos?`,
+  buttons: [
+    {
+      text: 'NO',
+      role: 'cancel',
+      handler: () => {
+       
+      },
+    },
+    {
+      text: ' SI ',
+      cssClass:'bYes',
+      handler: () => {
+       this.grabar()
+      },
+    },
+  ],
+});
+
+await alert.present();
+
+ 
 
   }
 

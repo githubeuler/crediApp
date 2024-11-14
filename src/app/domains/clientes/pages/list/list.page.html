@@ -1,7 +1,9 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
-      <ion-back-button></ion-back-button>
+      <ion-button (click)="closePage()" >
+        <ion-icon  slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
     </ion-buttons>
 
     <ion-buttons slot="end">
@@ -16,7 +18,7 @@
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar [debounce]="500" placeholder="Buscar" (ionInput)="onSearch($event)" ></ion-searchbar>
-    <ion-segment scrollable   value="todos">
+    <!-- <ion-segment scrollable   value="todos">
       <ion-segment-button (click)="changeFilter('TODOS')" value="todos">
         <ion-label>Todos</ion-label>
       </ion-segment-button>
@@ -26,8 +28,23 @@
       <ion-segment-button (click)="changeFilter('INACTIVO')" value="inactivos">
         <ion-label>Inactivos</ion-label>
       </ion-segment-button>
-    </ion-segment>
+    </ion-segment> -->
+    <div class="chip-container">
+
     
+    <ion-chip color="secondary" (click)="changeFilter('TODOS')"  [outline]="!(filtro() === 'TODOS')">
+      <ion-icon name="chevron-collapse-outline" color="secondary"></ion-icon>
+      <ion-label>Todos</ion-label>
+    </ion-chip>
+    <ion-chip color="success" (click)="changeFilter('ACTIVO')" [outline]="!(filtro() === 'ACTIVO')">
+      <ion-icon name="chevron-up-outline" color="success"></ion-icon>
+      <ion-label>Activos</ion-label>
+    </ion-chip>
+    <ion-chip color="danger" (click)="changeFilter('INACTIVO')" [outline]="!(filtro() === 'INACTIVO')">
+      <ion-icon name="chevron-down-outline" color="danger"></ion-icon>
+      <ion-label>Inactivos</ion-label>
+    </ion-chip>
+  </div>
   </ion-toolbar>
 
 </ion-header>
@@ -47,5 +64,9 @@
     </div>
    </ion-list>
 
+   <ion-item lines="none" *ngIf="clientesByfilter().length == 0">
+    <ion-icon name="information-circle-outline" size="large" color="medium" class="no-data-icon"></ion-icon>
+    <ion-label>No hay registros para mostrar.</ion-label>
+  </ion-item>
 
 </ion-content>

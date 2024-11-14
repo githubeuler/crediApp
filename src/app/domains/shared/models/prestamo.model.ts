@@ -1,4 +1,5 @@
 export interface Prestamo {
+  idDetallePrestamo:number;
   idPrestamo:number;
   cuotas: number;
   cuotasPendientes: number;
@@ -10,5 +11,13 @@ export interface Prestamo {
   pagoDia:number;
   estado:string;
   isPago:boolean;
-  isPagando:boolean
+  isPagando:boolean;
+  montoCapital:number;
+  montoTotal:number;
+  fechaInicial:string;
+  fechaFinal:string;
+  formaPago:string;
+  ultimaFechaPago:string;
+  diasSinPago:number;
+  pagoHoy:string;
 }
